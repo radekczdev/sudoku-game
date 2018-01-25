@@ -13,15 +13,11 @@ public class SudokuBoard {
     }
 
     public int getFieldValue(int row, int column) {
-        SudokuRow actualRow = rowsArray.get(column);
-        SudokuField actualField = actualRow.getFieldsArray().get(row);
-        return actualField.getValue();
+        return rowsArray.get(column - RELATIVE_POS).getFieldValue(row - RELATIVE_POS);
     }
 
-    public void setFieldValue(int row, int column, int value) {
-        SudokuRow actualRow = rowsArray.get(column - RELATIVE_POS);
-        SudokuField actualField = actualRow.getFieldsArray().get(row - RELATIVE_POS);
-        actualField.setValue(value);
+    public boolean setField(int row, int column, int value) {
+        return rowsArray.get(row - RELATIVE_POS).getField(column - RELATIVE_POS).setValue(value);
     }
 
     public List<SudokuRow> getRowsArray() {

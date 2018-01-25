@@ -5,7 +5,7 @@ public class GameRunner {
         boolean gameIsFinished = false;
         while(!gameIsFinished) {
             GamePlay gamePlay = new GamePlay();
-            gameIsFinished = gamePlay.solveSudoku();
+            gameIsFinished = gamePlay.startGame();
         }
     }
 }

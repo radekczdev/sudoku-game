@@ -11,8 +11,16 @@ public final class SudokuRow {
         IntStream.iterate(0, n -> n + 1).limit(rowSize).forEach(n -> fieldsArray.add(n, new SudokuField()));
     }
 
-    public void setField(int index, SudokuField field) {
-        fieldsArray.set(index, field);
+    public int getFieldValue(int n) {
+        return fieldsArray.get(n).getValue();
+    }
+
+    public boolean setFieldValue(int n, int value) {
+        return fieldsArray.get(n).setValue(value);
+    }
+
+    public SudokuField getField(int n) {
+        return fieldsArray.get(n);
     }
 
     public List<SudokuField> getFieldsArray() {

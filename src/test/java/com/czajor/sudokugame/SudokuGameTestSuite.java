@@ -10,10 +10,10 @@ public class SudokuGameTestSuite {
         SudokuBoard board = new SudokuBoard(9);
 
         // When
-        board.setFieldValue(1,2,4);
-        board.setFieldValue(5,4,8);
-        board.setFieldValue(5,4,8);
-        board.setFieldValue(5,4,4);
+        board.setField(1,2,4);
+        board.setField(5,4,8);
+        board.setField(5,4,8);
+        board.setField(5,4,4);
 
         // When
         System.out.println(board);

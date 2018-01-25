@@ -1,34 +1,50 @@
 package com.czajor.sudokugame;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.lang.Character.getNumericValue;
 
 public class GamePlay {
     private static final String FIELD_PARAMETERS_PATTERN = "\\d,\\d,\\d";
+    SudokuBoard board;
 
-    public boolean solveSudoku() {
+    public boolean startGame() {
         printIntro();
-        SudokuBoard board = new SudokuBoard(getNumericValue(getDigitUserInput().charAt(0)));
+        board = new SudokuBoard(getNumericValue(getDigitUserInput().charAt(0)));
+        System.out.println("Please provide field data (column,row,value) or solve by SUDOKU: ");
+        while(!getUserInput()){
 
+        }
+        return true;
+    }
+
+    public boolean getUserInput() {
         String input;
         switch(input = getStringUserInput()) {
             case "SUDOKU":
-                solveSudoku();
-                System.out.println("solving sudoku.....");
-                break;
+                SudokuSolver solver = new SudokuSolver(board);
+                solver.solveSudoku();
+                System.out.println(solver.getBoard());
+                return true;
             default:
                 if(inputMatchesFieldParameters(input)) {
-                    board.setFieldValue(getNumericValue(input.charAt(0)), getNumericValue(input.charAt(2)), getNumericValue(input.charAt(4)));
+                    setFieldValue(input);
+                    System.out.println(board);
                 } else {
                     System.out.println("Wrong input!");
                 }
                 break;
         }
+        return false;
+    }
 
-        System.out.println(board);
-        return true;
+    public boolean setFieldValue(String input) {
+        return board.setField(getNumericValue(input.charAt(0)), getNumericValue(input.charAt(2)), getNumericValue(input.charAt(4)));
     }
 
     public String getStringUserInput() {
