@@ -1,23 +1,32 @@
-package com.czajor.sudokugame;
+package com.czajor.sudokugame.sections;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class SudokuBoard {
-    private final static int RELATIVE_POS = 1;
     private final List<SudokuRow> rowsArray = new ArrayList<>(9);
+    private final int boardSize;
 
     public SudokuBoard(int boardSize) {
+        this.boardSize = boardSize;
         IntStream.iterate(0, n -> n + 1).limit(boardSize).forEach(n -> rowsArray.add(n, new SudokuRow(boardSize)));
     }
 
-    public int getFieldValue(int row, int column) {
-        return rowsArray.get(column - RELATIVE_POS).getFieldValue(row - RELATIVE_POS);
+    public int getBoardSize() {
+        return boardSize;
     }
 
-    public boolean setField(int row, int column, int value) {
-        return rowsArray.get(row - RELATIVE_POS).getField(column - RELATIVE_POS).setValue(value);
+    public int getFieldValue(int row, int column) {
+        return rowsArray.get(column).getFieldValue(row);
+    }
+
+    public SudokuField getField(int row, int column) {
+        return rowsArray.get(column).getField(row);
+    }
+
+    public boolean setFieldValue(int row, int column, int value) {
+        return rowsArray.get(row).getField(column).setValue(value);
     }
 
     public List<SudokuRow> getRowsArray() {

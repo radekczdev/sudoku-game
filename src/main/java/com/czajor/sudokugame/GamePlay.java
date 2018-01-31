@@ -1,29 +1,28 @@
 package com.czajor.sudokugame;
 
-import java.util.Iterator;
-import java.util.List;
+import com.czajor.sudokugame.sections.SudokuBoard;
+
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.lang.Character.getNumericValue;
 
 public class GamePlay {
     private static final String FIELD_PARAMETERS_PATTERN = "\\d,\\d,\\d";
+    private final static int RELATIVE_POS = 1;
     SudokuBoard board;
 
     public boolean startGame() {
         printIntro();
         board = new SudokuBoard(getNumericValue(getDigitUserInput().charAt(0)));
-        System.out.println("Please provide field data (column,row,value) or solve by SUDOKU: ");
-        while(!getUserInput()){
+        System.out.println("Please provide field data (row,column,value) or solve by SUDOKU: ");
+        while(!chooseUserAction()){
 
         }
         return true;
     }
 
-    public boolean getUserInput() {
+    public boolean chooseUserAction() {
         String input;
         switch(input = getStringUserInput()) {
             case "SUDOKU":
@@ -44,7 +43,9 @@ public class GamePlay {
     }
 
     public boolean setFieldValue(String input) {
-        return board.setField(getNumericValue(input.charAt(0)), getNumericValue(input.charAt(2)), getNumericValue(input.charAt(4)));
+        return board.setFieldValue(getNumericValue(input.charAt(0)) - RELATIVE_POS,
+                getNumericValue(input.charAt(2)) - RELATIVE_POS,
+                getNumericValue(input.charAt(4)));
     }
 
     public String getStringUserInput() {

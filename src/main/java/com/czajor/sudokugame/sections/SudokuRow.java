@@ -1,4 +1,4 @@
-package com.czajor.sudokugame;
+package com.czajor.sudokugame.sections;
 
 import java.util.ArrayList;
 import java.util.List;

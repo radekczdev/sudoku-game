@@ -1,15 +1,12 @@
-package com.czajor.sudokugame;
+package com.czajor.sudokugame.sections;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public final class SudokuField {
-    // can EMPTY be public?
-    public static int EMPTY = 0;
+    public static int EMPTY = -1;
     private int value = EMPTY;
-    private final List<Integer> possibleValues =
-            new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+    private final Set<Integer> possibleValues =
+            new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 
     public boolean setValue(final int value) {
         if(isValuePossible(value)) {
@@ -21,7 +18,9 @@ public final class SudokuField {
     }
 
     public boolean setValueFromPossible() {
-        return setValue(getPossibleValues().iterator().next());
+        boolean isSet = possibleValues.iterator().hasNext();
+        value = possibleValues.iterator().next();
+        return isSet;
     }
 
     public int getValue() {
@@ -32,7 +31,7 @@ public final class SudokuField {
         return possibleValues.contains(value);
     }
 
-    public List<Integer> getPossibleValues() {
+    public Set<Integer> getPossibleValues() {
         return possibleValues;
     }
 
@@ -41,6 +40,6 @@ public final class SudokuField {
     }
 
     public boolean removePossibleValue(int value) {
-        return possibleValues.remove(Integer.valueOf(value));
+        return possibleValues.remove(value);
     }
 }

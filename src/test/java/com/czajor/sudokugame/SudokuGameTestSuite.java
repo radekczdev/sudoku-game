@@ -1,5 +1,6 @@
 package com.czajor.sudokugame;
 
+import com.czajor.sudokugame.sections.SudokuBoard;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,10 +11,10 @@ public class SudokuGameTestSuite {
         SudokuBoard board = new SudokuBoard(9);
 
         // When
-        board.setField(1,2,4);
-        board.setField(5,4,8);
-        board.setField(5,4,8);
-        board.setField(5,4,4);
+        board.setFieldValue(1,2,4);
+        board.setFieldValue(5,4,8);
+        board.setFieldValue(5,4,8);
+        board.setFieldValue(5,4,4);
 
         // When
         System.out.println(board);
