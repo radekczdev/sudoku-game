@@ -22,68 +22,70 @@ public class SudokuSolver {
         try {
             checkRowsForDuplicates();
             checkColumnsForDuplicates();
+            System.out.println(board.getField(1,0).getPossibleValues());
         } catch (Exception e) {
             System.out.println("There are no possible values for this Field!");
         }   
     }
 
-    public void checkRowsForDuplicates() throws Exception {
+    public void checkRowsForDuplicates(){
         for(SudokuRow row : board.getRowsArray()) {
             Set<Integer> writtenValues = getValuesFromRow(row);
-            List<Integer> previousFields = new ArrayList<>();
+            Set<Integer> previousFields = new HashSet<>();
 
             for(SudokuField field : row.getFieldsArray()) {
-                for(Integer value : writtenValues) {
-                    field.removePossibleValue(value);
-                }
-                if(field.getPossibleValues().size() == 1) {
-                    if(writtenValues.containsAll(field.getPossibleValues())) {
-                        throw new Exception();
-                    } else {
-                        field.setValueFromPossible();
-                    }
-                }
-                for(Integer previousValue : previousFields) {
-                    field.removePossibleValue(previousValue);
-                    if(previousValue == field.getValue() && field.getValue() != SudokuField.EMPTY) {
-                        field.setValueFromPossible();
-                    }
-                }
-                previousFields.add(field.getValue());
-                writtenValues.add(field.getValue());
+            	try {
+            		writtenValues = checkForDuplicatesProcedure(field, writtenValues, previousFields);
+            
+	            } catch (Exception e) {
+	                System.out.println("There are no possible values for this Field!");
+	            }  
+            row.removeWrittenValuesFromFields(writtenValues);
             }
         }
     }
 
-    public void checkColumnsForDuplicates() throws Exception {
+    public void checkColumnsForDuplicates(){
     	for(int column = 0; column < board.getBoardSize(); column++) {
             Set<Integer> writtenValues = getValuesFromColumn(column);
             Set<Integer> previousFields = new HashSet<>();
 
             for(int row = 0; row < board.getBoardSize(); row++) {
-            	SudokuField field = board.getField(row, column);
-                for(Integer value : writtenValues) {
-                    field.removePossibleValue(value);
-                }
-                if(field.getPossibleValues().size() == 1) {
-                    if(writtenValues.containsAll(field.getPossibleValues())) {
-                        throw new Exception();
-                    } else {
-                        field.setValueFromPossible();
-                    }
-                }
-System.out.println(previousFields);
-                for(Integer previousValue : previousFields) {
-                    field.removePossibleValue(previousValue);
-                    if(field.getValue() == previousValue && field.getValue() != SudokuField.EMPTY) {
-                        field.setValueFromPossible();
-                    }
-                }
-                previousFields.add(field.getValue());
-                writtenValues.add(field.getValue());
+            	SudokuField field = board.getField(row, column); 
+System.out.println("Possible Values for element: row " + row + " column " + column + " : " + field.getPossibleValues());            	
+            	try {
+            		writtenValues = checkForDuplicatesProcedure(field, writtenValues, previousFields);
+            	} catch (Exception e) {
+                    System.out.println("There are no possible values for this Field!");
+                }  
+            	
             }
+            board.removeWrittenValuesFromFieldsInColumns(writtenValues, column);
         }
     }
+    
+    public Set<Integer> checkForDuplicatesProcedure(SudokuField field, Set<Integer>writtenValues, Set<Integer> previousFields) throws Exception {
+    	for(Integer value : writtenValues) {
+            field.removePossibleValue(value);
+        }
+        if(field.getPossibleValues().size() == 1) {
+            if(writtenValues.containsAll(field.getPossibleValues())) {
+                throw new Exception();
+            } else {
+                field.setValueFromPossible();
+            }
+        }
+        for(Integer previousValue : previousFields) {
+            field.removePossibleValue(previousValue);
+            if(field.getValue() == previousValue && field.getValue() != SudokuField.EMPTY) {
+                field.setValueFromPossible();
+            }
+        }
+        previousFields.add(field.getValue());
+        writtenValues.add(field.getValue());
+        return writtenValues;
+    }
+
 
     public Set<Integer> getValuesFromRow(SudokuRow row) {
         return row.getFieldsArray().stream()

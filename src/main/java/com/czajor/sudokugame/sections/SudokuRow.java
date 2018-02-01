@@ -2,6 +2,7 @@ package com.czajor.sudokugame.sections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public final class SudokuRow {
@@ -25,5 +26,12 @@ public final class SudokuRow {
 
     public List<SudokuField> getFieldsArray() {
         return fieldsArray;
+    }
+    
+    
+    public void removeWrittenValuesFromFields(Set<Integer> writtenValues) {
+    	for(SudokuField field : getFieldsArray()) {
+    		field.getPossibleValues().removeAll(writtenValues);
+    	}
     }
 }

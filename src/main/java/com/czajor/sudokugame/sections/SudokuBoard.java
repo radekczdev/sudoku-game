@@ -2,6 +2,7 @@ package com.czajor.sudokugame.sections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class SudokuBoard {
@@ -32,6 +33,12 @@ public class SudokuBoard {
     public List<SudokuRow> getRowsArray() {
         return rowsArray;
     }
+    
+    public void removeWrittenValuesFromFieldsInColumns(Set<Integer> writtenValues, int columnNumber) {
+    	for(int i = 0; i < boardSize; i++) {
+            getField(i, columnNumber).getPossibleValues().removeAll(writtenValues);
+        }
+    }
 
     @Override
     public String toString() {
@@ -44,7 +51,7 @@ public class SudokuBoard {
             }
             board += "\n";
             for(int i = 1; i <= row.getFieldsArray().size(); i++) {
-                board += "  - ";
+                board += "+ - ";
             }
             board += "\n";
         }
