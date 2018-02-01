@@ -10,7 +10,7 @@ public class SudokuGameTestSuite {
     @Test
     public void testSudokuBoardToString() {
         // Given
-        SudokuBoard board = new SudokuBoard(9);
+        SudokuBoard board = new SudokuBoard();
 
         // When
         board.setFieldValue(1,2,4);
@@ -30,19 +30,19 @@ public class SudokuGameTestSuite {
     public void testBoardWithData() throws Exception {
     	// Given    	
     	SudokuField field11 = new SudokuField();
-    	field11.setValue(3);
+    	field11.setValue(1);
     	
     	SudokuField field12 = new SudokuField();
-    	field12.setValue(3);
+    	field12.setValue(2);
     	
     	SudokuField field13 = new SudokuField();
     	field13.setValue(3);
     	
     	SudokuField field21 = new SudokuField();
-    	field21.setValue(3);
+    	field21.setValue(4);
     	
     	SudokuField field22 = new SudokuField();
-    	field22.setValue(3);
+    	field22.setValue(1);
     	
     	SudokuField field32 = new SudokuField();
     	field32.setValue(4);
@@ -65,7 +65,7 @@ public class SudokuGameTestSuite {
     	SudokuField field92 = new SudokuField();
     	field92.setValue(3);
     	
-    	SudokuBoard board = new SudokuBoard(9);
+    	SudokuBoard board = new SudokuBoard();
     	
     	// When
     	board.getRowsArray().get(0).getFieldsArray().set(0, field11);
@@ -84,7 +84,8 @@ public class SudokuGameTestSuite {
     	board.getRowsArray().get(8).getFieldsArray().set(1, field92);
     	
     	SudokuSolver solver = new SudokuSolver(board);
-    	
+
+        System.out.println(board);
     	solver.solveSudoku();
     	System.out.println(board);
     	

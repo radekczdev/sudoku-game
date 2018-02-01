@@ -9,7 +9,7 @@ public final class SudokuField {
             new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 
     public boolean setValue(final int value) {
-        if(isValuePossible(value)) {
+        if(isValuePossible(value) && this.value == EMPTY) {
             this.value = value;
             return removePossibleValue(value);
         }
@@ -33,10 +33,6 @@ public final class SudokuField {
 
     public Set<Integer> getPossibleValues() {
         return possibleValues;
-    }
-
-    public boolean addPossibleValue(int value) {
-        return possibleValues.add(value);
     }
 
     public boolean removePossibleValue(int value) {

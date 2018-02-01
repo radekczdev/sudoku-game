@@ -1,21 +1,21 @@
 package com.czajor.sudokugame;
 
 import com.czajor.sudokugame.sections.SudokuBoard;
+import com.czajor.sudokugame.tools.InputProcessor;
 
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import static java.lang.Character.getNumericValue;
 
 public class GamePlay {
-    private static final String FIELD_PARAMETERS_PATTERN = "\\d,\\d,\\d";
+    private static final String FIELD_PARAMETERS_PATTERN = "\\d\\d\\d";
     private final static int RELATIVE_POS = 1;
-    SudokuBoard board;
+    private SudokuBoard board;
 
     public boolean startGame() {
         printIntro();
-        board = new SudokuBoard(getNumericValue(getDigitUserInput().charAt(0)));
-        System.out.println("Please provide field data (row,column,value) or solve by SUDOKU: ");
+        board = new SudokuBoard();
+        System.out.println("Please provide field data (rowColumnValue) or solve by SUDOKU: ");
         while(!chooseUserAction()){
 
         }
@@ -24,7 +24,7 @@ public class GamePlay {
 
     public boolean chooseUserAction() {
         String input;
-        switch(input = getStringUserInput()) {
+        switch(input = InputProcessor.getStringUserInput()) {
             case "SUDOKU":
                 SudokuSolver solver = new SudokuSolver(board);
                 solver.solveSudoku();
@@ -44,18 +44,8 @@ public class GamePlay {
 
     public boolean setFieldValue(String input) {
         return board.setFieldValue(getNumericValue(input.charAt(0)) - RELATIVE_POS,
-                getNumericValue(input.charAt(2)) - RELATIVE_POS,
-                getNumericValue(input.charAt(4)));
-    }
-
-    public String getStringUserInput() {
-        Scanner input = new Scanner(System.in);
-        return input.nextLine();
-    }
-
-    public String getDigitUserInput() {
-        Scanner input = new Scanner(System.in);
-        return input.next("\\d");
+                getNumericValue(input.charAt(1)) - RELATIVE_POS,
+                getNumericValue(input.charAt(2)));
     }
 
     public boolean inputMatchesFieldParameters(String input) {
@@ -64,7 +54,6 @@ public class GamePlay {
     }
 
     public void printIntro() {
-        System.out.println("Welcome to Sudoku game!\n"
-                + "Please provide board size:\n");
+        System.out.println("Welcome to Sudoku game!\n");
     }
 }
