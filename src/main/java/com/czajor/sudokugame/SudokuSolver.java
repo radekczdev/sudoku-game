@@ -21,14 +21,13 @@ public class SudokuSolver {
     public void solveSudoku() {
         try {
             checkRowsForDuplicates();
+            checkColumnsForDuplicates();
         } catch (Exception e) {
             System.out.println("There are no possible values for this Field!");
-        }
-        System.out.println(board);
-        checkColumnsForDuplicates();
+        }   
     }
 
-    public void checkRowsForDuplicates() throws Exception{
+    public void checkRowsForDuplicates() throws Exception {
         for(SudokuRow row : board.getRowsArray()) {
             Set<Integer> writtenValues = getValuesFromRow(row);
             List<Integer> previousFields = new ArrayList<>();
@@ -56,27 +55,34 @@ public class SudokuSolver {
         }
     }
 
-    public void checkColumnsForDuplicates() {
-        for (int column = 0; column < board.getBoardSize(); column++) {
+    public void checkColumnsForDuplicates() throws Exception {
+    	for(int column = 0; column < board.getBoardSize(); column++) {
             Set<Integer> writtenValues = getValuesFromColumn(column);
-            List<Integer> previousFields = new ArrayList<>();
+            Set<Integer> previousFields = new HashSet<>();
 
-            for (int row = 0; row < board.getBoardSize(); row++) {
-                SudokuField field = board.getField(row, column);
-                for (Integer value : writtenValues) {
+            for(int row = 0; row < board.getBoardSize(); row++) {
+            	SudokuField field = board.getField(row, column);
+                for(Integer value : writtenValues) {
                     field.removePossibleValue(value);
                 }
-                for (Integer previousValue : previousFields) {
+                if(field.getPossibleValues().size() == 1) {
+                    if(writtenValues.containsAll(field.getPossibleValues())) {
+                        throw new Exception();
+                    } else {
+                        field.setValueFromPossible();
+                    }
+                }
+System.out.println(previousFields);
+                for(Integer previousValue : previousFields) {
                     field.removePossibleValue(previousValue);
-                    if (previousValue == field.getValue() && field.getValue() != SudokuField.EMPTY) {
-                            field.setValueFromPossible();
+                    if(field.getValue() == previousValue && field.getValue() != SudokuField.EMPTY) {
+                        field.setValueFromPossible();
                     }
                 }
                 previousFields.add(field.getValue());
                 writtenValues.add(field.getValue());
             }
         }
-
     }
 
     public Set<Integer> getValuesFromRow(SudokuRow row) {

@@ -18,11 +18,11 @@ public class SudokuBoard {
     }
 
     public int getFieldValue(int row, int column) {
-        return rowsArray.get(column).getFieldValue(row);
+        return rowsArray.get(row).getFieldValue(column);
     }
 
     public SudokuField getField(int row, int column) {
-        return rowsArray.get(column).getField(row);
+        return rowsArray.get(row).getField(column);
     }
 
     public boolean setFieldValue(int row, int column, int value) {
