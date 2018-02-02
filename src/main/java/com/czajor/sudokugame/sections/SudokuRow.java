@@ -23,11 +23,4 @@ public final class SudokuRow {
     public List<SudokuField> getFieldsArray() {
         return fieldsArray;
     }
-    
-    
-    public void removeWrittenValuesFromFields(Set<Integer> writtenValues) {
-    	for(SudokuField field : getFieldsArray()) {
-    		field.getPossibleValues().removeAll(writtenValues);
-    	}
-    }
 }

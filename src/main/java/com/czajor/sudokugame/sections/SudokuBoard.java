@@ -41,12 +41,6 @@ public class SudokuBoard {
         return rowsArray.get(row).getField(column).setValue(value);
     }
 
-    public void removeWrittenValuesFromFieldsInColumns(Set<Integer> writtenValues, int columnNumber) {
-    	for(int i = 0; i < boardSize; i++) {
-            getField(i, columnNumber).getPossibleValues().removeAll(writtenValues);
-        }
-    }
-
     public boolean isSingleInRowColumnBlock(int row, int column, int value) {
         return getValuesFromColumn(column).contains(value) || getValuesFromRow(row).contains(value) || getValuesFromBlock(row, column).contains(value);
     }
@@ -59,10 +53,37 @@ public class SudokuBoard {
                 .collect(Collectors.toSet());
     }
 
+    public Set<Integer> getPossibleValuesFromRow(int row) {
+        return getRowsArray().get(row).getFieldsArray().stream()
+                .flatMap(n -> n.getPossibleValues().stream())
+                .collect(Collectors.toSet());
+    }
+
     public Set<Integer> getValuesFromColumn(int column) {
         Set<Integer> values = new HashSet<>();
         for(int i = 0; i < boardSize; i++) {
             values.add(getFieldValue(i, column));
+        }
+        return values;
+    }
+
+    public Set<Integer> getPossibleValuesFromColumn(int column) {
+        Set<Integer> values = new HashSet<>();
+        for(int i = 0; i < boardSize; i++) {
+            values.addAll(getField(i, column).getPossibleValues());
+        }
+        return values;
+    }
+
+    public Set<Integer> getPossibleValuesFromBlock(int row, int column) {
+        int rowMod = (row / blockSize) * blockSize;
+        int columnMod = (column / blockSize) * blockSize;
+
+        Set<Integer> values = new HashSet<>();
+        for(int i = rowMod; i < rowMod + blockSize; i++) {
+            for (int j = columnMod; j < columnMod + blockSize; j++) {
+                values.addAll(getField(i, j).getPossibleValues());
+            }
         }
         return values;
     }

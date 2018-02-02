@@ -16,10 +16,9 @@ public class SudokuSolver {
     public void solveSudoku() {
         SudokuValidator validator = new SudokuValidator();
         try {
-            validator.newVersionOfCheck(board);
-//            validator.checkRowsForDuplicates(board);
-//            validator.checkColumnsForDuplicates(board);
-//            validator.checkBlockForDuplicates(board);
+            while(validator.newVersionOfCheck(board)){
+
+            }
         } catch (Exception e) {
             System.out.println("There are no possible values for this Field!");
         }   
