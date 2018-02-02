@@ -2,7 +2,6 @@ package com.czajor.sudokugame.sections;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 public final class SudokuRow {

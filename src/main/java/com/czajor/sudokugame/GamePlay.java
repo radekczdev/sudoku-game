@@ -15,14 +15,13 @@ public class GamePlay {
     public boolean startGame() {
         printIntro();
         board = new SudokuBoard();
-        System.out.println("Please provide field data (rowColumnValue) or solve by SUDOKU: ");
-        while(!chooseUserAction()){
+        while(!userAction()){
 
         }
         return true;
     }
 
-    public boolean chooseUserAction() {
+    public boolean userAction() {
         String input;
         switch(input = InputProcessor.getStringUserInput()) {
             case "SUDOKU":
@@ -55,5 +54,6 @@ public class GamePlay {
 
     public void printIntro() {
         System.out.println("Welcome to Sudoku game!\n");
+        System.out.println("Please provide field data (rowColumnValue) or solve by SUDOKU: ");
     }
 }

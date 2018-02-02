@@ -7,9 +7,4 @@ public class InputProcessor {
         Scanner input = new Scanner(System.in);
         return input.nextLine();
     }
-
-    public static String getDigitUserInput() {
-        Scanner input = new Scanner(System.in);
-        return input.next("\\d");
-    }
 }

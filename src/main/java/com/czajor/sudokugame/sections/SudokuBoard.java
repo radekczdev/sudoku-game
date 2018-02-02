@@ -104,17 +104,29 @@ public class SudokuBoard {
     @Override
     public String toString() {
         String board = "";
-        // add division into Blocks!!!
+        for(int i = 1; i <= boardSize; i++) {
+            board += "+ = ";
+        }
+        board += "+\n";
+        int lineCounter = 1;
         for(SudokuRow row : rowsArray) {
             board += "|";
             for(SudokuField field : row.getFieldsArray()) {
                 board += (field.getValue() == SudokuField.EMPTY) ? "   |" : " " + field.getValue() + " |";
             }
             board += "\n";
-            for(int i = 1; i <= row.getFieldsArray().size(); i++) {
-                board += "+ - ";
+
+            if(lineCounter % 3 == 0){
+                for(int i = 1; i <= row.getFieldsArray().size(); i++) {
+                    board += "+ = ";
+                }
+            } else {
+                for(int i = 1; i <= row.getFieldsArray().size(); i++) {
+                    board += "+ - ";
+                }
             }
-            board += "\n";
+            board += "+\n";
+            lineCounter++;
         }
         return board;
     }
