@@ -1,5 +1,7 @@
 package com.czajor.sudokugame.sections;
 
+import com.czajor.sudokugame.Prototype;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,8 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class SudokuBoard {
-    private final List<SudokuRow> rowsArray = new ArrayList<>(9);
+public class SudokuBoard extends Prototype {
+    private List<SudokuRow> rowsArray = new ArrayList<>(9);
     private final static int boardSize = 9;
     private final static int blockSize = 3;
 
@@ -129,5 +131,18 @@ public class SudokuBoard {
             lineCounter++;
         }
         return board;
+    }
+
+    public SudokuBoard deepCopy() throws CloneNotSupportedException {
+        SudokuBoard clonedBoard = (SudokuBoard)super.clone();
+        clonedBoard.rowsArray = new ArrayList<>();
+        for(SudokuRow row : rowsArray) {
+            SudokuRow clonedRow = new SudokuRow(blockSize);
+            for(SudokuField field : row.getFieldsArray()) {
+                clonedRow.getFieldsArray().add(field);
+            }
+            clonedBoard.getRowsArray().add(row);
+        }
+        return clonedBoard;
     }
 }

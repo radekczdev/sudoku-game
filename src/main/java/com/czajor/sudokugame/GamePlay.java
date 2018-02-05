@@ -10,15 +10,18 @@ import static java.lang.Character.getNumericValue;
 public class GamePlay {
     private static final String FIELD_PARAMETERS_PATTERN = "\\d\\d\\d";
     private final static int RELATIVE_POS = 1;
-    private SudokuBoard board;
+    private SudokuBoard board = new SudokuBoard();
 
     public boolean startGame() {
         printIntro();
-        board = new SudokuBoard();
         while(!userAction()){
 
         }
         return true;
+    }
+
+    public SudokuBoard getBoard() {
+        return board;
     }
 
     public boolean userAction() {

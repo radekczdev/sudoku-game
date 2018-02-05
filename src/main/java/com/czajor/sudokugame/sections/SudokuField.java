@@ -1,10 +1,12 @@
 package com.czajor.sudokugame.sections;
 
+import com.czajor.sudokugame.Prototype;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class SudokuField {
+public final class SudokuField extends Prototype {
     public static int EMPTY = -1;
     private int value = EMPTY;
     private final Set<Integer> possibleValues =
@@ -31,5 +33,11 @@ public final class SudokuField {
 
     public Set<Integer> getPossibleValues() {
         return possibleValues;
+    }
+
+    public SudokuField deepCopy() throws CloneNotSupportedException {
+        SudokuField clonedField = (SudokuField) super.clone();
+        clonedField.possibleValues.addAll(possibleValues);
+        return clonedField;
     }
 }
