@@ -35,6 +35,10 @@ public final class SudokuField extends Prototype {
         return possibleValues;
     }
 
+    public int getNextPossibleValue() {
+        return possibleValues.iterator().next();
+    }
+
     public SudokuField deepCopy() throws CloneNotSupportedException {
         SudokuField clonedField = (SudokuField) super.clone();
         clonedField.possibleValues.addAll(possibleValues);

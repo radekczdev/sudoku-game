@@ -139,7 +139,7 @@ public class SudokuBoard extends Prototype {
         for(SudokuRow row : rowsArray) {
             SudokuRow clonedRow = new SudokuRow(blockSize);
             for(SudokuField field : row.getFieldsArray()) {
-                clonedRow.getFieldsArray().add(field);
+                clonedRow.getFieldsArray().add(field.deepCopy());
             }
             clonedBoard.getRowsArray().add(row);
         }

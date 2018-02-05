@@ -4,6 +4,7 @@ import com.czajor.sudokugame.sections.SudokuBoard;
 import com.czajor.sudokugame.sections.SudokuField;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,16 +28,23 @@ public class SudokuSolver {
         if(isSolved()) {
             System.out.println("SUDOKU SOLVED!");
         }
-//        else {
-//            List<SudokuField> unresolvedFields = getEmptyFields();
-//            while(unresolvedFields.iterator().hasNext() && !isSolved()) {
-//                SudokuField currentField = unresolvedFields.iterator().next();
-//                currentField.setValueFromPossible();
-//
-//                handleValidation();
-//            }
-//
-//        }
+        else {
+            List<SudokuField> unresolvedFields = getEmptyFields();
+            Iterator iterator = unresolvedFields.iterator();
+            while(iterator.hasNext() && !isSolved()) {
+                SudokuField currentField = (SudokuField)iterator.next();
+                try {
+                    backtrack.add(new SudokuTemp(board.deepCopy(), currentField.getNextPossibleValue()));
+                } catch (Exception e) {}
+
+                if(currentField.getPossibleValues().size() > 0) {
+                    currentField.setValueFromPossible();
+                }
+
+                handleValidation();
+            }
+
+        }
 
     }
 
