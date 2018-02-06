@@ -9,7 +9,7 @@ import java.util.Set;
 public final class SudokuField extends Prototype {
     public static int EMPTY = -1;
     private int value = EMPTY;
-    private final Set<Integer> possibleValues =
+    private Set<Integer> possibleValues =
             new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
 
     public boolean setValue(final int value) {
@@ -21,10 +21,15 @@ public final class SudokuField extends Prototype {
         return false;
     }
 
-    public boolean setValueFromPossible() {
-        boolean isSet = possibleValues.iterator().hasNext();
-        value = possibleValues.iterator().next();
-        return isSet;
+    public boolean setNextPossibleValue() {
+        return setValue(possibleValues.iterator().next());
+    }
+    
+    public boolean removeNextPossibleValue() {
+        if (possibleValues.iterator().hasNext()) {
+            return this.possibleValues.remove(getNextPossibleValue());            
+        }
+        return false;
     }
 
     public int getValue() {
@@ -41,7 +46,10 @@ public final class SudokuField extends Prototype {
 
     public SudokuField deepCopy() throws CloneNotSupportedException {
         SudokuField clonedField = (SudokuField) super.clone();
-        clonedField.possibleValues.addAll(possibleValues);
+        clonedField.possibleValues = new HashSet<>();
+        for(Integer value : this.possibleValues) {
+            clonedField.getPossibleValues().add((int) value);
+        }
         return clonedField;
     }
 }

@@ -1,21 +1,22 @@
 package com.czajor.sudokugame;
 
 import com.czajor.sudokugame.sections.SudokuBoard;
+import com.czajor.sudokugame.sections.SudokuField;
 
 public class SudokuTemp {
-    private final SudokuBoard deepCopy;
-    private final int guessedValue;
+    private final SudokuBoard boardCopy;
+    private final SudokuField fieldCopy;
 
-    public SudokuTemp(SudokuBoard board, int fieldValue) {
-        this.deepCopy = board;
-        this.guessedValue = fieldValue;
+    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy) {
+        this.boardCopy = boardCopy;
+        this.fieldCopy = fieldCopy;
     }
 
-    public SudokuBoard getDeepCopy() {
-        return deepCopy;
+    public SudokuBoard getBoardCopy() {
+        return boardCopy;
     }
 
-    public int getGuessedValue() {
-        return guessedValue;
+    public SudokuField getFieldCopy() {
+        return fieldCopy;
     }
 }

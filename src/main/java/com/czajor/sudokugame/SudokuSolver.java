@@ -3,15 +3,17 @@ package com.czajor.sudokugame;
 import com.czajor.sudokugame.sections.SudokuBoard;
 import com.czajor.sudokugame.sections.SudokuField;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SudokuSolver {
     private SudokuBoard board;
-    private List<SudokuTemp> backtrack = new ArrayList<>();
+    private ArrayDeque<SudokuTemp> backtrack = new ArrayDeque<>();
 
     public SudokuSolver(SudokuBoard board) {
         this.board = board;
@@ -25,27 +27,41 @@ public class SudokuSolver {
 
     public void solveSudoku() {
         handleValidation();
+        System.out.println("Current board state: \n" + board);
         if(isSolved()) {
             System.out.println("SUDOKU SOLVED!");
         }
         else {
             List<SudokuField> unresolvedFields = getEmptyFields();
-            Iterator iterator = unresolvedFields.iterator();
-            while(iterator.hasNext() && !isSolved()) {
-                SudokuField currentField = (SudokuField)iterator.next();
-                try {
-                    backtrack.add(new SudokuTemp(board.deepCopy(), currentField.getNextPossibleValue()));
-                } catch (Exception e) {}
+            SudokuField currentField;
+            for(int i = 0; i < unresolvedFields.size(); i++) {
+                if(!isSolved()) {
+                    currentField = unresolvedFields.get(i);
+                    try {
+                        backtrack.push(new SudokuTemp(board.deepCopy(), currentField.deepCopy()));
+                        if(currentField.getPossibleValues().size() > 0) {
+                            currentField.setNextPossibleValue();
+                        } else {
+                            throw new Exception();
+                        }
+                        validate();
+                        System.out.println("i: " + i + board);
 
-                if(currentField.getPossibleValues().size() > 0) {
-                    currentField.setValueFromPossible();
+                    } catch (Exception e) {
+                        System.out.println("Error during guessing value!");
+                        board = backtrack.peekFirst().getBoardCopy();
+                        currentField = backtrack.pop().getFieldCopy();
+                        currentField.removeNextPossibleValue();     /// HERE LIES SOME PROBLEMS! Should be more simple
+                       
+                        if(backtrack.size() == 0) {
+                            System.out.println("Sudoku cannot be solved!");
+                            break;
+                        }
+                        i--;
+                    }
                 }
-
-                handleValidation();
             }
-
         }
-
     }
 
     private List<SudokuField> getEmptyFields() {
@@ -55,7 +71,7 @@ public class SudokuSolver {
                 .collect(Collectors.toList());
     }
 
-    private boolean isSolved() {
+    public boolean isSolved() {
         long count = board.getRowsArray().stream()
                 .flatMap(n -> n.getFieldsArray().stream())
                 .map(SudokuField::getValue)
@@ -106,7 +122,7 @@ public class SudokuSolver {
                     }
 
                     if(field.getPossibleValues().size() == 1) {
-                        if(!field.setValueFromPossible()) {
+                        if(!field.setNextPossibleValue()) {
                             throw new Exception("There are no possible values for this Field!");
                         }
                         takesAction = true;

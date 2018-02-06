@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SudokuBoard extends Prototype {
-    private List<SudokuRow> rowsArray = new ArrayList<>(9);
+    private List<SudokuRow> rowsArray = new ArrayList<>(boardSize);
     private final static int boardSize = 9;
     private final static int blockSize = 3;
 
@@ -136,13 +136,38 @@ public class SudokuBoard extends Prototype {
     public SudokuBoard deepCopy() throws CloneNotSupportedException {
         SudokuBoard clonedBoard = (SudokuBoard)super.clone();
         clonedBoard.rowsArray = new ArrayList<>();
-        for(SudokuRow row : rowsArray) {
-            SudokuRow clonedRow = new SudokuRow(blockSize);
+        for(SudokuRow row : this.rowsArray) {
+            SudokuRow clonedRow = new SudokuRow();
             for(SudokuField field : row.getFieldsArray()) {
                 clonedRow.getFieldsArray().add(field.deepCopy());
             }
-            clonedBoard.getRowsArray().add(row);
+            clonedBoard.getRowsArray().add(clonedRow);
         }
         return clonedBoard;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((rowsArray == null) ? 0 : rowsArray.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SudokuBoard other = (SudokuBoard) obj;
+        if (rowsArray == null) {
+            if (other.rowsArray != null)
+                return false;
+        } else if (!rowsArray.equals(other.rowsArray))
+            return false;
+        return true;
     }
 }
