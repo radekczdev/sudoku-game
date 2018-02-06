@@ -51,6 +51,9 @@ public class SudokuGameTestSuite {
 
         SudokuSolver solver = new SudokuSolver(gamePlay.getBoard());
         solver.solveSudoku();
+        System.out.println("Field 4,8 value: " + gamePlay.getBoard().getFieldValue(4,8));
+        System.out.println("Field 4,8 poss values: " + gamePlay.getBoard().getField(4,8).getPossibleValues());
+        System.out.println("Final result after solveSUdoku(): \n" + gamePlay.getBoard());
         
         // When
         Boolean isSolved = solver.isSolved();

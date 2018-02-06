@@ -6,10 +6,12 @@ import com.czajor.sudokugame.sections.SudokuField;
 public class SudokuTemp {
     private final SudokuBoard boardCopy;
     private final SudokuField fieldCopy;
+    private final SudokuField address;
 
-    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy) {
+    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy, SudokuField address) {
         this.boardCopy = boardCopy;
         this.fieldCopy = fieldCopy;
+        this.address = address;
     }
 
     public SudokuBoard getBoardCopy() {
@@ -18,5 +20,9 @@ public class SudokuTemp {
 
     public SudokuField getFieldCopy() {
         return fieldCopy;
+    }
+
+    public SudokuField getAddress() {
+        return address;
     }
 }

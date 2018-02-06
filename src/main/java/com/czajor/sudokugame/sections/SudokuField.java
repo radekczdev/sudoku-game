@@ -21,13 +21,17 @@ public final class SudokuField extends Prototype {
         return false;
     }
 
+    public void setPreviousValue(final int value) {
+        this.value = value;
+    }
+
     public boolean setNextPossibleValue() {
         return setValue(possibleValues.iterator().next());
     }
     
     public boolean removeNextPossibleValue() {
         if (possibleValues.iterator().hasNext()) {
-            return this.possibleValues.remove(getNextPossibleValue());            
+            return possibleValues.remove(possibleValues.iterator().next());
         }
         return false;
     }
