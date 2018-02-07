@@ -28,8 +28,8 @@ public class SudokuSolver {
         }
         else {
             List<SudokuField> unresolvedFields = getEmptyFields();
-            Iterator iterator = unresolvedFields.iterator();
-            SudokuField currentField = (SudokuField)iterator.next();
+            Iterator<SudokuField> iterator = unresolvedFields.iterator();
+            SudokuField currentField = iterator.next();
             while(!isSolved() && iterator.hasNext()) {
                 try {
                     if(currentField.getPossibleValues().size() > 0) {
@@ -37,7 +37,7 @@ public class SudokuSolver {
                     }
                     validate();
                     backtrack.push(new SudokuTemp(board.deepCopy(), currentField.deepCopy(), currentField));
-                    currentField = (SudokuField)iterator.next();
+                    currentField = iterator.next();
                 } catch (Exception e) {
                     System.out.println("Error during guessing value!");
 
@@ -46,7 +46,7 @@ public class SudokuSolver {
                     System.out.println(board);
                     currentField = backtrack.peek().getAddress();
                     currentField.setPreviousValue(SudokuField.EMPTY);
-                    currentField.removeNextPossibleValue();
+//                    currentField.removeNextPossibleValue();
                     if(backtrack.size() == 0) {
                         System.out.println("Sudoku cannot be solved!");
                         break;

@@ -3,6 +3,11 @@ package com.czajor.sudokugame;
 import com.czajor.sudokugame.sections.SudokuBoard;
 import com.czajor.sudokugame.sections.SudokuField;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,4 +93,34 @@ public class SudokuGameTestSuite {
         Assert.assertEquals(5, testValueInClonedBoard);
         
     }
+    
+//    @Test
+//    public void backtrackTest() {
+//        Deque<SudokuTemp> backtrack = new ArrayDeque<>();
+//        List<SudokuField> unresolvedFields = getEmptyFields();
+//        Iterator<SudokuField> iterator = unresolvedFields.iterator();
+//        SudokuField currentField = iterator.next();
+//        while(iterator.hasNext()) {
+//            try {
+//                if(currentField.getPossibleValues().size() > 0) {
+//                    currentField.setNextPossibleValue();
+//                }
+//                backtrack.push(new SudokuTemp(board.deepCopy(), currentField.deepCopy(), currentField));
+//                currentField = iterator.next();
+//            } catch (Exception e) {
+//                System.out.println("Error during guessing value!");
+//
+//                /// WORK THE COPY OUT! - retrieving to last not working
+//                board = backtrack.peek().getBoardCopy();
+//                System.out.println(board);
+//                currentField = backtrack.peek().getAddress();
+//                currentField.setPreviousValue(SudokuField.EMPTY);
+////                currentField.removeNextPossibleValue();
+//                if(backtrack.size() == 0) {
+//                    System.out.println("Sudoku cannot be solved!");
+//                    break;
+//                }
+//            }
+//        }
+//    }
 }
