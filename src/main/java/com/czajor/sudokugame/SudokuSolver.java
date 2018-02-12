@@ -18,8 +18,6 @@ public class SudokuSolver {
         return board;
     }
 
-
-
     public void solveSudoku() {
         handleValidation();
         System.out.println("Current board state: \n" + board);
@@ -27,32 +25,33 @@ public class SudokuSolver {
             System.out.println("SUDOKU SOLVED!");
         }
         else {
-            List<SudokuField> unresolvedFields = getEmptyFields();
-            Iterator<SudokuField> iterator = unresolvedFields.iterator();
-            SudokuField currentField = iterator.next();
-            while(!isSolved() && iterator.hasNext()) {
+            Iterator<SudokuField> iterator;
+            SudokuField currentField;
+            do{
+                iterator = getEmptyFields().iterator();
+                currentField = iterator.next();
                 try {
+                    backtrack.push(new SudokuTemp(board.deepCopy(), currentField));
                     if(currentField.getPossibleValues().size() > 0) {
                         currentField.setNextPossibleValue();
                     }
-                    validate();
-                    backtrack.push(new SudokuTemp(board.deepCopy(), currentField.deepCopy(), currentField));
-                    currentField = iterator.next();
+                    handleValidation();
+                    System.out.println(board);
                 } catch (Exception e) {
                     System.out.println("Error during guessing value!");
-
-                    /// WORK THE COPY OUT! - retrieving to last not working
-                    board = backtrack.peek().getBoardCopy();
-                    System.out.println(board);
-                    currentField = backtrack.peek().getAddress();
-                    currentField.setPreviousValue(SudokuField.EMPTY);
-//                    currentField.removeNextPossibleValue();
-                    if(backtrack.size() == 0) {
+                    SudokuTemp lastSavedGame = backtrack.pop();
+                    try {
+                        board = lastSavedGame.getBoardCopy().deepCopy();
+                    } catch (Exception copyBoardError) {
+                        System.out.println(copyBoardError);
+                    }
+                    board.getField(lastSavedGame.getRow(), lastSavedGame.getColumn()).getPossibleValues().remove(lastSavedGame.getValue());
+                    if(backtrack.isEmpty()) {
                         System.out.println("Sudoku cannot be solved!");
                         break;
                     }
                 }
-            }
+            } while (!isSolved() && iterator.hasNext());
         }
     }
 
@@ -88,11 +87,12 @@ public class SudokuSolver {
             for(int column = 0; column < board.getBoardSize(); column++) {
                 SudokuField field = board.getField(row, column);
 
-//                if(field.getValue() == SudokuField.EMPTY && field.getPossibleValues().size() == 0) {
+//                if(field.getPossibleValues().size() == 0) {
 //                    throw new Exception("There are no possible values for this Field!");
 //                }
 
                 if(field.getValue() == SudokuField.EMPTY) {
+
                     Set<Integer> possibleValuesInRow = board.getPossibleValuesFromRow(row);
                     Set<Integer> possibleValuesInColumn = board.getPossibleValuesFromColumn(column);
                     Set<Integer> possibleValuesInBlock = board.getPossibleValuesFromBlock(row, column);

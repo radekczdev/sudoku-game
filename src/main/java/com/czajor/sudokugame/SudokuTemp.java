@@ -5,24 +5,30 @@ import com.czajor.sudokugame.sections.SudokuField;
 
 public class SudokuTemp {
     private final SudokuBoard boardCopy;
-    private final SudokuField fieldCopy;
-    private final SudokuField address;
+    private final int row;
+    private final int column;
+    private final int value;
 
-    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy, SudokuField address) {
+    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy) {
         this.boardCopy = boardCopy;
-        this.fieldCopy = fieldCopy;
-        this.address = address;
+        this.row = fieldCopy.getRow();
+        this.column = fieldCopy.getColumn();
+        this.value = fieldCopy.getNextPossibleValue();
     }
 
     public SudokuBoard getBoardCopy() {
         return boardCopy;
     }
 
-    public SudokuField getFieldCopy() {
-        return fieldCopy;
+    public int getValue() {
+        return value;
     }
 
-    public SudokuField getAddress() {
-        return address;
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }

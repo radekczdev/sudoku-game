@@ -11,6 +11,8 @@ public final class SudokuField extends Prototype {
     private int value = EMPTY;
     private Set<Integer> possibleValues =
             new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+    private int column;
+    private int row;
 
     public boolean setValue(final int value) {
         if(possibleValues.contains(value) && this.value == EMPTY) {
@@ -21,21 +23,10 @@ public final class SudokuField extends Prototype {
         return false;
     }
 
-    public void setPreviousValue(final int value) {
-        this.value = value;
-    }
-
     public boolean setNextPossibleValue() {
         return setValue(possibleValues.iterator().next());
     }
     
-    public boolean removeNextPossibleValue() {
-        if (possibleValues.iterator().hasNext()) {
-            return possibleValues.remove(possibleValues.iterator().next());
-        }
-        return false;
-    }
-
     public int getValue() {
         return value;
     }
@@ -52,8 +43,24 @@ public final class SudokuField extends Prototype {
         SudokuField clonedField = (SudokuField) super.clone();
         clonedField.possibleValues = new HashSet<>();
         for(Integer value : this.possibleValues) {
-            clonedField.getPossibleValues().add((int) value);
+            clonedField.getPossibleValues().add(value);
         }
         return clonedField;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
     }
 }

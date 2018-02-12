@@ -3,10 +3,7 @@ package com.czajor.sudokugame;
 import com.czajor.sudokugame.sections.SudokuBoard;
 import com.czajor.sudokugame.sections.SudokuField;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,7 +55,7 @@ public class SudokuGameTestSuite {
         solver.solveSudoku();
         System.out.println("Field 4,8 value: " + gamePlay.getBoard().getFieldValue(4,8));
         System.out.println("Field 4,8 poss values: " + gamePlay.getBoard().getField(4,8).getPossibleValues());
-        System.out.println("Final result after solveSUdoku(): \n" + gamePlay.getBoard());
+        System.out.println("Final result after solveSUdoku(): \n" + solver.getBoard());
         
         // When
         Boolean isSolved = solver.isSolved();
@@ -67,7 +64,33 @@ public class SudokuGameTestSuite {
         Assert.assertTrue(isSolved);
         
     }
-    
+
+    @Test
+    public void testSetFieldValueWithSudokuSolver3() {
+        // Given
+
+        GamePlay gamePlay = new GamePlay();
+        String[] values = {"149", "172", "198", "247", "285", "327", "368", "379", "386", "457", "475", "511", "544"
+                , "563", "592", "635", "658", "724", "738", "746", "783", "822", "867", "913", "937", "965"};
+
+        for(String value : values) {
+            gamePlay.setFieldValue(value);
+        }
+
+        SudokuSolver solver = new SudokuSolver(gamePlay.getBoard());
+        solver.solveSudoku();
+        System.out.println("Field 4,8 value: " + gamePlay.getBoard().getFieldValue(4,8));
+        System.out.println("Field 4,8 poss values: " + gamePlay.getBoard().getField(4,8).getPossibleValues());
+        System.out.println("Final result after solveSudoku(): \n" + solver.getBoard());
+
+        // When
+        Boolean isSolved = solver.isSolved();
+
+        // Then
+        Assert.assertTrue(isSolved);
+
+    }
+
     @Test
     public void testDeepCloneOfBoard() throws Exception {
         // Given
@@ -92,6 +115,19 @@ public class SudokuGameTestSuite {
         Assert.assertEquals(1, testValueInBoard);
         Assert.assertEquals(5, testValueInClonedBoard);
         
+    }
+
+    @Test
+    public void testDivision() {
+        System.out.println();
+        int blockSize = 3;
+        int row = 3;
+        int column = 2;
+        int rowMod = (row / blockSize) * blockSize;
+        int columnMod = (column / blockSize) * blockSize;
+
+        System.out.println(rowMod);
+        System.out.println(columnMod);
     }
     
 //    @Test

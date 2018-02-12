@@ -9,6 +9,7 @@ public final class SudokuRow {
 
     public SudokuRow(int rowSize) {
         IntStream.iterate(0, n -> n + 1).limit(rowSize).forEach(n -> fieldsArray.add(n, new SudokuField()));
+        IntStream.iterate(0, n -> n + 1).limit(rowSize).forEach(n -> fieldsArray.get(n).setColumn(n));
     }
     
     public SudokuRow() {

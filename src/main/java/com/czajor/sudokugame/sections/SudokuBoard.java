@@ -16,6 +16,11 @@ public class SudokuBoard extends Prototype {
 
     public SudokuBoard() {
         IntStream.iterate(0, n -> n + 1).limit(boardSize).forEach(n -> rowsArray.add(n, new SudokuRow(boardSize)));
+        for(int i = 0; i < rowsArray.size(); i++) {
+            for(int j = 0; j < boardSize; j++) {
+                rowsArray.get(i).getFieldsArray().get(j).setRow(i);
+            }
+        }
     }
 
     public int getBoardSize() {
