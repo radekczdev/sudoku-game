@@ -23,8 +23,8 @@ public final class SudokuField extends Prototype {
         return false;
     }
 
-    public boolean setNextPossibleValue() {
-        return setValue(possibleValues.iterator().next());
+    public void setNextPossibleValue() {
+        setValue(possibleValues.iterator().next());
     }
     
     public int getValue() {

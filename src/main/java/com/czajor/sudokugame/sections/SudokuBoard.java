@@ -37,13 +37,12 @@ public class SudokuBoard extends Prototype {
 
     public boolean setFieldValue(int row, int column, int value) {
         if(isSingleInRowColumnBlock(row,column,value)) {
-            System.out.println("Cannot set field " + row + "," + column + " to " + value + " - it exists in this row or column or block");
             return false;
         }
         return rowsArray.get(row).getField(column).setValue(value);
     }
 
-    public boolean isSingleInRowColumnBlock(int row, int column, int value) {
+    private boolean isSingleInRowColumnBlock(int row, int column, int value) {
         return getValuesFromColumn(column).contains(value) || getValuesFromRow(row).contains(value) || getValuesFromBlock(row, column).contains(value);
     }
 

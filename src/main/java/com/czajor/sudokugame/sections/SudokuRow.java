@@ -15,10 +15,6 @@ public final class SudokuRow {
     public SudokuRow() {
     }
 
-    public int getFieldValue(int n) {
-        return fieldsArray.get(n).getValue();
-    }
-
     public SudokuField getField(int n) {
         return fieldsArray.get(n);
     }
