@@ -9,11 +9,11 @@ public class SudokuTemp {
     private final int column;
     private final int value;
 
-    public SudokuTemp(SudokuBoard boardCopy, SudokuField fieldCopy) {
+    public SudokuTemp(SudokuBoard boardCopy, SudokuField field) {
         this.boardCopy = boardCopy;
-        this.row = fieldCopy.getRow();
-        this.column = fieldCopy.getColumn();
-        this.value = fieldCopy.getNextPossibleValue();
+        this.row = field.getRow();
+        this.column = field.getColumn();
+        this.value = field.getNextPossibleValue();
     }
 
     public SudokuBoard getBoardCopy() {

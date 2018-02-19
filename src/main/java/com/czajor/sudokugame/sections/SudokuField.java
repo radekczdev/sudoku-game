@@ -39,6 +39,10 @@ public final class SudokuField extends Prototype {
         return possibleValues.iterator().next();
     }
 
+    public void removePossibleValue(int value) {
+        possibleValues.remove(value);
+    }
+
     public SudokuField deepCopy() throws CloneNotSupportedException {
         SudokuField clonedField = (SudokuField) super.clone();
         clonedField.possibleValues = new HashSet<>();

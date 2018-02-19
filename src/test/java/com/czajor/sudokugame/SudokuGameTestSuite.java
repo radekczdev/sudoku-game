@@ -77,10 +77,58 @@ public class SudokuGameTestSuite {
             gamePlay.setFieldValue(value);
         }
 
+        System.out.println("Sudoku before solution: \n" + gamePlay.getBoard());
         SudokuSolver solver = new SudokuSolver(gamePlay.getBoard());
         solver.solveSudoku();
-        System.out.println("Field 4,8 value: " + gamePlay.getBoard().getFieldValue(4,8));
-        System.out.println("Field 4,8 poss values: " + gamePlay.getBoard().getField(4,8).getPossibleValues());
+        System.out.println("Final result after solveSudoku(): \n" + solver.getBoard());
+
+        // When
+        Boolean isSolved = solver.isSolved();
+
+        // Then
+        Assert.assertTrue(isSolved);
+
+    }
+
+    @Test
+    public void testSetFieldValueWithSudokuSolver4() {
+        // Given
+
+        GamePlay gamePlay = new GamePlay();
+        String[] values = {
+                "121",
+                "168",
+                "193",
+                "234",
+                "259",
+                "263",
+                "316",
+                "328",
+                "414",
+                "452",
+                "488",
+                "515",
+                "599",
+                "629",
+                "653",
+                "696",
+                "784",
+                "795",
+                "841",
+                "854",
+                "879",
+                "912",
+                "946",
+                "981"
+        };
+
+        for(String value : values) {
+            gamePlay.setFieldValue(value);
+        }
+
+        System.out.println("Sudoku before solution: \n" + gamePlay.getBoard());
+        SudokuSolver solver = new SudokuSolver(gamePlay.getBoard());
+        solver.solveSudoku();
         System.out.println("Final result after solveSudoku(): \n" + solver.getBoard());
 
         // When
@@ -129,34 +177,4 @@ public class SudokuGameTestSuite {
         System.out.println(rowMod);
         System.out.println(columnMod);
     }
-    
-//    @Test
-//    public void backtrackTest() {
-//        Deque<SudokuTemp> backtrack = new ArrayDeque<>();
-//        List<SudokuField> unresolvedFields = getEmptyFields();
-//        Iterator<SudokuField> iterator = unresolvedFields.iterator();
-//        SudokuField currentField = iterator.next();
-//        while(iterator.hasNext()) {
-//            try {
-//                if(currentField.getPossibleValues().size() > 0) {
-//                    currentField.setNextPossibleValue();
-//                }
-//                backtrack.push(new SudokuTemp(board.deepCopy(), currentField.deepCopy(), currentField));
-//                currentField = iterator.next();
-//            } catch (Exception e) {
-//                System.out.println("Error during guessing value!");
-//
-//                /// WORK THE COPY OUT! - retrieving to last not working
-//                board = backtrack.peek().getBoardCopy();
-//                System.out.println(board);
-//                currentField = backtrack.peek().getAddress();
-//                currentField.setPreviousValue(SudokuField.EMPTY);
-////                currentField.removeNextPossibleValue();
-//                if(backtrack.size() == 0) {
-//                    System.out.println("Sudoku cannot be solved!");
-//                    break;
-//                }
-//            }
-//        }
-//    }
 }

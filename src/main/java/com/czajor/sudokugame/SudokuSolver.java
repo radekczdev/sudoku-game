@@ -25,33 +25,26 @@ public class SudokuSolver {
             System.out.println("SUDOKU SOLVED!");
         }
         else {
-            Iterator<SudokuField> iterator;
             SudokuField currentField;
-            do{
-                iterator = getEmptyFields().iterator();
-                currentField = iterator.next();
+            while (!isSolved()){
+                currentField = getEmptyFields().iterator().next();
                 try {
                     backtrack.push(new SudokuTemp(board.deepCopy(), currentField));
                     if(currentField.getPossibleValues().size() > 0) {
                         currentField.setNextPossibleValue();
                     }
                     handleValidation();
-                    System.out.println(board);
                 } catch (Exception e) {
-                    System.out.println("Error during guessing value!");
-                    SudokuTemp lastSavedGame = backtrack.pop();
-                    try {
-                        board = lastSavedGame.getBoardCopy().deepCopy();
-                    } catch (Exception copyBoardError) {
-                        System.out.println(copyBoardError);
-                    }
-                    board.getField(lastSavedGame.getRow(), lastSavedGame.getColumn()).getPossibleValues().remove(lastSavedGame.getValue());
                     if(backtrack.isEmpty()) {
                         System.out.println("Sudoku cannot be solved!");
                         break;
                     }
+                    System.out.println("Error during guessing value!");
+                    SudokuTemp lastSavedGame = backtrack.pop();
+                    board = lastSavedGame.getBoardCopy();
+                    board.getField(lastSavedGame.getRow(), lastSavedGame.getColumn()).removePossibleValue(lastSavedGame.getValue());
                 }
-            } while (!isSolved() && iterator.hasNext());
+            }
         }
     }
 
@@ -81,29 +74,40 @@ public class SudokuSolver {
         }
     }
 
+    private boolean removeExistingValues (SudokuField field) {
+        int row = field.getRow();
+        int column = field.getColumn();
+
+        Set<Integer> valuesInRow = board.getValuesFromRow(row);
+        Set<Integer> valuesInColumn = board.getValuesFromColumn(column);
+        Set<Integer> valuesInBlock = board.getValuesFromBlock(row, column);
+
+        if(field.getPossibleValues().removeAll(valuesInRow) ||
+                field.getPossibleValues().removeAll(valuesInColumn) ||
+                field.getPossibleValues().removeAll(valuesInBlock)) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean validate() throws Exception {
         boolean takesAction = false;
         for(int row = 0; row < board.getBoardSize(); row++) {
             for(int column = 0; column < board.getBoardSize(); column++) {
                 SudokuField field = board.getField(row, column);
-
-//                if(field.getPossibleValues().size() == 0) {
-//                    throw new Exception("There are no possible values for this Field!");
-//                }
-
                 if(field.getValue() == SudokuField.EMPTY) {
 
                     Set<Integer> possibleValuesInRow = board.getPossibleValuesFromRow(row);
                     Set<Integer> possibleValuesInColumn = board.getPossibleValuesFromColumn(column);
                     Set<Integer> possibleValuesInBlock = board.getPossibleValuesFromBlock(row, column);
 
-                    Set<Integer> valuesInRow = board.getValuesFromRow(row);
-                    Set<Integer> valuesInColumn = board.getValuesFromColumn(column);
-                    Set<Integer> valuesInBlock = board.getValuesFromBlock(row, column);
+                    takesAction = removeExistingValues(field);
 
-                    if(field.getPossibleValues().removeAll(valuesInRow) ||
-                            field.getPossibleValues().removeAll(valuesInColumn) ||
-                            field.getPossibleValues().removeAll(valuesInBlock)) {
+                    if(field.getPossibleValues().size() == 1) {
+                        if(!field.setNextPossibleValue()) {
+                            throw new Exception("There are no possible values for this Field!");
+                        }
                         takesAction = true;
                     }
 
@@ -113,15 +117,7 @@ public class SudokuSolver {
                                 && !possibleValuesInBlock.contains(value)) {
                             field.setValue(value);
                             takesAction = true;
-                            break;
                         }
-                    }
-
-                    if(field.getPossibleValues().size() == 1) {
-                        if(!field.setNextPossibleValue()) {
-                            throw new Exception("There are no possible values for this Field!");
-                        }
-                        takesAction = true;
                     }
                 }
             }
