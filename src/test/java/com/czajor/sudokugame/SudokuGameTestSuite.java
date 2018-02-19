@@ -53,7 +53,7 @@ public class SudokuGameTestSuite {
 
         SudokuSolver solver = new SudokuSolver(gamePlay.getBoard());
         solver.solveSudoku();
-        System.out.println("Field 4,8 value: " + gamePlay.getBoard().getFieldValue(4,8));
+        System.out.println("Field 4,8 value: " + gamePlay.getBoard().getField(4,8).getValue());
         System.out.println("Field 4,8 poss values: " + gamePlay.getBoard().getField(4,8).getPossibleValues());
         System.out.println("Final result after solveSUdoku(): \n" + solver.getBoard());
         
@@ -153,8 +153,8 @@ public class SudokuGameTestSuite {
         // When
         System.out.println(board);
         System.out.println(clonedBoard);
-        int testValueInBoard = board.getFieldValue(0, 8);
-        int testValueInClonedBoard = clonedBoard.getFieldValue(0, 8);
+        int testValueInBoard = board.getField(0, 8).getValue();
+        int testValueInClonedBoard = clonedBoard.getField(0, 8).getValue();
        
         boolean isEqual = board.equals(clonedBoard);
         

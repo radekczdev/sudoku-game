@@ -31,13 +31,8 @@ public class SudokuBoard extends Prototype {
         return rowsArray;
     }
 
-
     public SudokuField getField(int row, int column) {
         return rowsArray.get(row).getField(column);
-    }
-
-    public int getFieldValue(int row, int column) {
-        return rowsArray.get(row).getFieldValue(column);
     }
 
     public boolean setFieldValue(int row, int column, int value) {
@@ -69,7 +64,7 @@ public class SudokuBoard extends Prototype {
     public Set<Integer> getValuesFromColumn(int column) {
         Set<Integer> values = new HashSet<>();
         for(int i = 0; i < boardSize; i++) {
-            values.add(getFieldValue(i, column));
+            values.add(getField(i, column).getValue());
         }
         return values;
     }
@@ -102,7 +97,7 @@ public class SudokuBoard extends Prototype {
         Set<Integer> values = new HashSet<>();
         for(int i = rowMod; i < rowMod + blockSize; i++) {
             for (int j = columnMod; j < columnMod + blockSize; j++) {
-                values.add(getFieldValue(i, j));
+                values.add(getField(i, j).getValue());
             }
         }
         return values;
