@@ -37,7 +37,7 @@ public class GamePlay {
                     setFieldValue(input);
                     System.out.println(board);
                 } else {
-                    System.out.println("Wrong input!");
+                    System.out.println("Wrong input! Correct format is: RCV - RowColumnValue");
                 }
                 break;
         }
@@ -57,6 +57,6 @@ public class GamePlay {
 
     public void printIntro() {
         System.out.println("Welcome to Sudoku game!\n");
-        System.out.println("Please provide field data (rowColumnValue) or solve by SUDOKU: ");
+        System.out.println("Please provide field data in format RCV (RowColumnValue) or solve by SUDOKU: ");
     }
 }

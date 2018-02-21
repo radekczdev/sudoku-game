@@ -1,6 +1,7 @@
 package com.czajor.sudokugame.sections;
 
 import com.czajor.sudokugame.Prototype;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ public class SudokuBoard extends Prototype {
 
     public boolean setFieldValue(int row, int column, int value) {
         if(isSingleInRowColumnBlock(row,column,value)) {
+            System.out.println("You cannot set the value: " + value + " in field [" + row + "," + column + "]");
             return false;
         }
         return rowsArray.get(row).getField(column).setValue(value);
